@@ -8,8 +8,8 @@ import { dataSourceOptions } from './db/databaseConfig';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
     TypeOrmModule.forRoot(dataSourceOptions),
+    ConfigModule.forRoot({ isGlobal: true }),
     ProductsModule,
   ],
   controllers: [AppController],
