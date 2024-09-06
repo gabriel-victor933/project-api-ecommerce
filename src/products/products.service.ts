@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Product } from './entities/product.entity';
+import { Category, Product, Type } from './entities/product.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -13,16 +13,17 @@ export class ProductsService {
   ) {}
 
   async create(createProductDto: CreateProductDto) {
-    const product = new Product();
+    const product = this.productsRepository.create({
+      name: 'teste',
+      material: 'Algodão',
+      price: 1000,
+      type: 'Casual' as Type,
+      category: 'Menswear' as Category,
+    });
 
-    product.name = 'Teste';
-    product.material = 'teste';
+    const saved = await this.productsRepository.save(product);
 
-    console.log('tentando salvar');
-
-    const res = await this.productsRepository.save(product);
-
-    return res;
+    return { id: saved.id };
   }
 
   async findAll() {
