@@ -5,14 +5,19 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
 import { Feature } from 'src/features/entities/features.entity';
+import { Comment } from 'src/comments/comments/entities/comment.entity';
 
 const ITEMS_PER_PAGE = 20;
+const COMMENTS_PER_PAGE = 10;
+
 
 @Injectable()
 export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private productsRepository: Repository<Product>,
+    @InjectRepository(Comment)
+    private commentsRepository: Repository<Comment>,
   ) {}
 
   async create(createProductDto: CreateProductDto) {
@@ -65,10 +70,23 @@ export class ProductsService {
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {
-    await this.productsRepository.update({ id: id }, updateProductDto);
+    return await this.productsRepository.update({ id: id }, updateProductDto);
   }
 
   remove(id: string) {
     return this.productsRepository.delete({ id: id });
+  }
+
+  findProductComments(id: string, page: number) {
+    console.log(id);
+    return this.commentsRepository.find({
+      where: {
+        product: {
+          id: id,
+        },
+      },
+      take: COMMENTS_PER_PAGE,
+      skip: COMMENTS_PER_PAGE * page,
+    });
   }
 }

@@ -1,3 +1,4 @@
+import { Comment } from 'src/comments/comments/entities/comment.entity';
 import { Feature } from 'src/features/entities/features.entity';
 import {
   Entity,
@@ -55,4 +56,7 @@ export class Product {
 
   @OneToMany(() => Feature, (feature) => feature.product, { cascade: true })
   features: Feature[];
+
+  @OneToMany(() => Comment, (Comment) => Comment.product)
+  comments: Comment[];
 }

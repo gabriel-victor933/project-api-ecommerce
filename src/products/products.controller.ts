@@ -39,7 +39,12 @@ export class ProductsController {
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateProductDto: UpdateProductDto,
   ) {
-    await this.productsService.update(id, updateProductDto);
+    const { affected } = await this.productsService.update(
+      id,
+      updateProductDto,
+    );
+
+    if (!affected) throw new NotFoundException('Product not found!');
 
     return 'Updated!';
   }
@@ -51,5 +56,13 @@ export class ProductsController {
     if (!affected) throw new NotFoundException('Product not found!');
 
     return 'Deleted';
+  }
+
+  @Get(':id/comments')
+  findProductComments(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Query('page', new ParseIntPipe({ optional: true })) page: number,
+  ) {
+    return this.productsService.findProductComments(id, page ?? 0);
   }
 }
