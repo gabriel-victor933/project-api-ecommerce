@@ -1,9 +1,11 @@
+import { Feature } from 'src/features/entities/features.entity';
 import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 export enum Type {
@@ -24,7 +26,7 @@ export class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @Column()
@@ -50,4 +52,7 @@ export class Product {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Feature, (feature) => feature.product, { cascade: true })
+  features: Feature[];
 }
