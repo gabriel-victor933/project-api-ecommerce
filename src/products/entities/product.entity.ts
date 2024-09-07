@@ -1,5 +1,6 @@
 import { Comment } from 'src/comments/comments/entities/comment.entity';
 import { Feature } from 'src/features/entities/features.entity';
+import { Stock } from 'src/stock/stock/entities/stock.entity';
 import {
   Entity,
   Column,
@@ -59,4 +60,7 @@ export class Product {
 
   @OneToMany(() => Comment, (Comment) => Comment.product)
   comments: Comment[];
+
+  @OneToMany(() => Stock, (Stock) => Stock.product)
+  stocks: Stock[];
 }

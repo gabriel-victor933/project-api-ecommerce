@@ -10,7 +10,6 @@ import { Comment } from 'src/comments/comments/entities/comment.entity';
 const ITEMS_PER_PAGE = 20;
 const COMMENTS_PER_PAGE = 10;
 
-
 @Injectable()
 export class ProductsService {
   constructor(

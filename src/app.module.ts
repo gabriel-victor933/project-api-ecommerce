@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/products.module';
 import { dataSourceOptions } from './db/databaseConfig';
 import { CommentsModule } from './comments/comments/comments.module';
+import { StockModule } from './stock/stock/stock.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { CommentsModule } from './comments/comments/comments.module';
     ConfigModule.forRoot({ isGlobal: true }),
     ProductsModule,
     CommentsModule,
+    StockModule,
   ],
   controllers: [AppController],
   providers: [AppService],
