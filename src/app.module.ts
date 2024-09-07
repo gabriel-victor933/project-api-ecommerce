@@ -7,6 +7,7 @@ import { ProductsModule } from './products/products.module';
 import { dataSourceOptions } from './db/databaseConfig';
 import { CommentsModule } from './comments/comments/comments.module';
 import { StockModule } from './stock/stock/stock.module';
+import { FeaturesModule } from './features/features.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { StockModule } from './stock/stock/stock.module';
     ProductsModule,
     CommentsModule,
     StockModule,
+    FeaturesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -4,7 +4,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
-import { Feature } from 'src/features/entities/features.entity';
+import { Feature } from 'src/features/entities/feature.entity';
 import { Comment } from 'src/comments/comments/entities/comment.entity';
 
 const ITEMS_PER_PAGE = 20;
