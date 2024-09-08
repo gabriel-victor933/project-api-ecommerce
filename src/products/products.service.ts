@@ -39,7 +39,6 @@ export class ProductsService {
 
     const saved = await this.productsRepository.save(product);
 
-    console.log(saved);
     return { id: saved.id };
   }
 

@@ -14,7 +14,7 @@ export enum Type {
   CASUAL = 'Casual',
   FORMAL = 'Formal',
   PARTY = 'Party',
-  BUSINESS = 'business',
+  BUSINESS = 'Business',
 }
 
 export enum Category {
