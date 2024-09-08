@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Controller,
   Get,
@@ -10,10 +11,13 @@ import {
   Query,
   ParseIntPipe,
   ParseUUIDPipe,
+  ParseEnumPipe,
+  BadRequestException,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { Category, Type } from './entities/product.entity';
 
 @Controller('products')
 export class ProductsController {
@@ -25,8 +29,12 @@ export class ProductsController {
   }
 
   @Get()
-  findAll(@Query('page', new ParseIntPipe({ optional: true })) page: number) {
-    return this.productsService.findAll(page ?? 0);
+  findAll(
+      @Query('page', new ParseIntPipe({ optional: true })) page: number,
+      @Query('type', new ParseEnumPipe(Type, { optional: true, exceptionFactory: () => new BadRequestException('type must be one of the following values: Casual, Formal, Party, Business') })) type: Type,
+      @Query('category', new ParseEnumPipe(Category, { optional: true, exceptionFactory: () => new BadRequestException('category must be one of the following values: Menswear, Womenswear, Kidswear') })) category: Category,
+    ) {
+    return this.productsService.findAll(page ?? 0, type, category);
   }
 
   @Get(':id')

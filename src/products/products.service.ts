@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Product } from './entities/product.entity';
+import { Category, Product, Type } from './entities/product.entity';
 import { Repository } from 'typeorm';
 import { Feature } from 'src/features/entities/feature.entity';
 import { Comment } from 'src/comments/comments/entities/comment.entity';
@@ -42,8 +42,12 @@ export class ProductsService {
     return { id: saved.id };
   }
 
-  async findAll(page: number) {
+  async findAll(page: number, type: Type, category: Category) {
     return await this.productsRepository.find({
+      where: {
+        type: type,
+        category: category,
+      },
       take: ITEMS_PER_PAGE,
       skip: ITEMS_PER_PAGE * page,
       relations: {
