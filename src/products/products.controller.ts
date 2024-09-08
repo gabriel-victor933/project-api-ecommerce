@@ -13,16 +13,19 @@ import {
   ParseUUIDPipe,
   ParseEnumPipe,
   BadRequestException,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Category, Type } from './entities/product.entity';
+import { DatabaseErrorsInterceptor } from 'src/errors/interceptor/errors.interceptor';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
+  @UseInterceptors(DatabaseErrorsInterceptor)
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
