@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Stock } from './entities/stock.entity';
 import { Repository } from 'typeorm';
 import { Product } from 'src/products/entities/product.entity';
+import { Image } from 'src/images/entities/image.entity';
 
 @Injectable()
 export class StockService {
@@ -13,7 +14,10 @@ export class StockService {
     private stocksRepository: Repository<Stock>,
   ) {}
 
-  async create(createStockDto: CreateStockDto) {
+  async create(
+    createStockDto: CreateStockDto,
+    images: Array<Express.Multer.File>,
+  ) {
     const product = new Product();
     product.id = createStockDto.productId;
 
@@ -23,6 +27,15 @@ export class StockService {
       quantity: createStockDto.quantity,
       size: createStockDto.size,
     });
+
+    const imagesEnts: Image[] = images.map((img) => {
+      const image = new Image();
+      image.url = img.originalname || '123';
+      image.stock = stock;
+      return image;
+    });
+
+    stock.images = imagesEnts;
 
     stock.product = product;
 

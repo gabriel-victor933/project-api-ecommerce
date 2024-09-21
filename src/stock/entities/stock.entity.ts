@@ -1,9 +1,11 @@
+import { Image } from 'src/images/entities/image.entity';
 import { Product } from 'src/products/entities/product.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -41,4 +43,7 @@ export class Stock {
 
   @ManyToOne(() => Product, (product) => product.comments, { nullable: false })
   product: Product;
+
+  @OneToMany(() => Image, (image) => image.stock, { cascade: true })
+  images: Image[];
 }
