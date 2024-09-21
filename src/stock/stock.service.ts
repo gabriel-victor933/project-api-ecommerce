@@ -45,11 +45,24 @@ export class StockService {
   }
 
   findAll() {
-    return this.stocksRepository.find();
+    return this.stocksRepository.find({
+      relations: {
+        images: true,
+      },
+      relationLoadStrategy: 'join',
+    });
   }
 
   async findOne(id: string) {
-    const stock = await this.stocksRepository.findOneBy({ id });
+    const stock = await this.stocksRepository.findOne({
+      where: {
+        id,
+      },
+      relations: {
+        images: true,
+      },
+      relationLoadStrategy: 'join',
+    });
 
     if (!stock) throw new NotFoundException('Stock not Found!');
 
