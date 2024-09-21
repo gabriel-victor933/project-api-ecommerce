@@ -1,6 +1,6 @@
 import { Comment } from 'src/comments/comments/entities/comment.entity';
 import { Feature } from 'src/features/entities/feature.entity';
-import { Stock } from 'src/stock/stock/entities/stock.entity';
+import { Stock } from 'src//stock/entities/stock.entity';
 import {
   Entity,
   Column,
