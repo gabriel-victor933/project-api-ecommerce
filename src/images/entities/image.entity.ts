@@ -7,7 +7,7 @@ export class Image {
   id: string;
 
   @Column()
-  url: string;
+  bucketKey: string;
 
   @ManyToOne(() => Stock, (stock) => stock.images, { nullable: false })
   stock: Stock;

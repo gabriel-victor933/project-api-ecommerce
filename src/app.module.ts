@@ -9,6 +9,7 @@ import { CommentsModule } from './comments/comments/comments.module';
 import { StockModule } from './stock/stock.module';
 import { FeaturesModule } from './features/features.module';
 import { ImagesModule } from './images/images.module';
+import { BucketModule } from './bucket/bucket.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ImagesModule } from './images/images.module';
     StockModule,
     FeaturesModule,
     ImagesModule,
+    BucketModule,
   ],
   controllers: [AppController],
   providers: [AppService],

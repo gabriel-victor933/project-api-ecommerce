@@ -30,7 +30,7 @@ export class StockService {
 
     const imagesEnts: Image[] = images.map((img) => {
       const image = new Image();
-      image.url = img.originalname || '123';
+      image.bucketKey = img.originalname || '123';
       image.stock = stock;
       return image;
     });
