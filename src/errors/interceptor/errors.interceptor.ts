@@ -5,6 +5,7 @@ import {
   CallHandler,
   InternalServerErrorException,
   ConflictException,
+  BadRequestException,
 } from '@nestjs/common';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -19,6 +20,10 @@ export class DatabaseErrorsInterceptor implements NestInterceptor {
             () => new ConflictException('Name is already in use!'),
           );
         }
+        if (err?.status == 400) {
+          return throwError(() => new BadRequestException(err.response));
+        }
+
         return throwError(() => new InternalServerErrorException());
       }),
     );

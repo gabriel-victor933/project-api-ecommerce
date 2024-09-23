@@ -10,6 +10,7 @@ async function bootstrap() {
       forbidNonWhitelisted: false,
     }),
   );
+  app.enableCors({ origin: '*' });
   const PORT = process.env.PORT;
   await app.listen(PORT, () => console.log(`running at port ${PORT}`));
 }
