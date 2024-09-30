@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateImageDto } from './dto/create-image.dto';
-import { Image } from './entities/image.entity';
+import { Images } from './entities/images.entity';
 import { Stock } from 'src/stock/entities/stock.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -9,8 +9,8 @@ import { BucketService } from 'src/bucket/bucket.service';
 @Injectable()
 export class ImagesService {
   constructor(
-    @InjectRepository(Image)
-    private imageRepository: Repository<Image>,
+    @InjectRepository(Images)
+    private imageRepository: Repository<Images>,
     private bucketService: BucketService,
   ) {}
 
@@ -23,7 +23,7 @@ export class ImagesService {
 
     stock.id = createImageDto.stockId;
 
-    const image = new Image();
+    const image = new Images();
 
     image.bucketKey = fileKey;
     image.stock = stock;

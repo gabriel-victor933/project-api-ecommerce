@@ -1,4 +1,4 @@
-import { Image } from 'src/images/entities/image.entity';
+import { Images } from 'src/images/entities/images.entity';
 import { Product } from 'src/products/entities/product.entity';
 import {
   Column,
@@ -44,6 +44,6 @@ export class Stock {
   @ManyToOne(() => Product, (product) => product.comments, { nullable: false })
   product: Product;
 
-  @OneToMany(() => Image, (image) => image.stock, { cascade: true })
-  images: Image[];
+  @OneToMany(() => Images, (image) => image.stock, { cascade: true })
+  images: Images[];
 }

@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Stock } from './entities/stock.entity';
 import { Repository } from 'typeorm';
 import { Product } from 'src/products/entities/product.entity';
-import { Image } from 'src/images/entities/image.entity';
+import { Images } from 'src/images/entities/images.entity';
 
 @Injectable()
 export class StockService {
@@ -28,8 +28,8 @@ export class StockService {
       size: createStockDto.size,
     });
 
-    const imagesEnts: Image[] = images.map((img) => {
-      const image = new Image();
+    const imagesEnts: Images[] = images.map((img) => {
+      const image = new Images();
       image.bucketKey = img.originalname || '123';
       image.stock = stock;
       return image;

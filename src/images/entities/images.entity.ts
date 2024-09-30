@@ -2,7 +2,7 @@ import { Stock } from 'src/stock/entities/stock.entity';
 import { Entity, PrimaryGeneratedColumn, ManyToOne, Column } from 'typeorm';
 
 @Entity()
-export class Image {
+export class Images {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
