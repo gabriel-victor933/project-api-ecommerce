@@ -8,14 +8,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
-
-export enum Type {
-  CASUAL = 'Casual',
-  FORMAL = 'Formal',
-  PARTY = 'Party',
-  BUSINESS = 'Business',
-}
+import { ProductType } from 'src/product-type/entities/product-type.entity';
 
 export enum Category {
   MENSWEAR = 'Menswear',
@@ -39,12 +34,6 @@ export class Product {
 
   @Column({
     type: 'enum',
-    enum: Type,
-  })
-  type: Type;
-
-  @Column({
-    type: 'enum',
     enum: Category,
   })
   category: Category;
@@ -63,4 +52,7 @@ export class Product {
 
   @OneToMany(() => Stock, (Stock) => Stock.product)
   stocks: Stock[];
+
+  @ManyToOne(() => ProductType, (type) => type.products, { nullable: false })
+  productType: ProductType;
 }

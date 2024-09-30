@@ -18,14 +18,14 @@ import {
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Category, Type } from './entities/product.entity';
+import { Category } from './entities/product.entity';
 import { DatabaseErrorsInterceptor } from 'src/errors/interceptor/errors.interceptor';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @UseInterceptors(DatabaseErrorsInterceptor)
+  @UseInterceptors(new DatabaseErrorsInterceptor('Type Don\'t exist!','Name is already in use!'))
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
       return this.productsService.create(createProductDto);
@@ -34,17 +34,7 @@ export class ProductsController {
   @Get()
   findAll(
     @Query('page', new ParseIntPipe({ optional: true })) page: number,
-    @Query(
-      'type',
-      new ParseEnumPipe(Type, {
-        optional: true,
-        exceptionFactory: () =>
-          new BadRequestException(
-            'type must be one of the following values: Casual, Formal, Party, Business',
-          ),
-      }),
-    )
-    type: Type,
+    @Query('type', new ParseUUIDPipe({optional: true})) type: string,
     @Query(
       'category',
       new ParseEnumPipe(Category, {

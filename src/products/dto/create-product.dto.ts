@@ -5,9 +5,10 @@ import {
   IsNotEmpty,
   IsNumber,
   IsString,
+  IsUUID,
   Min,
 } from 'class-validator';
-import { Category, Type } from '../entities/product.entity';
+import { Category } from '../entities/product.entity';
 
 export class CreateProductDto {
   @IsNotEmpty()
@@ -20,8 +21,10 @@ export class CreateProductDto {
   @IsNumber()
   @Min(100)
   price: number;
-  @IsEnum(Type)
-  type: Type;
+  @IsNotEmpty()
+  @IsString()
+  @IsUUID()
+  typeId: string;
   @IsEnum(Category)
   category: Category;
   //valida array de strings.
