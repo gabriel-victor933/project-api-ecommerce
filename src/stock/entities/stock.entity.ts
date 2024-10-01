@@ -9,9 +9,13 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  Index,
 } from 'typeorm';
 
 @Entity()
+@Index(['product', 'color'], { unique: true })
+//partial index: only one true principal attribute per productId.
+@Index(['product'], { unique: true, where: '"principal"=true' })
 export class Stock {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -34,6 +38,9 @@ export class Stock {
   @OneToMany(() => Images, (image) => image.stock, { cascade: true })
   images: Images[];
 
-  @OneToMany(() => Sizes, (size) => size.stock, { cascade: true })
+  @OneToMany(() => Sizes, (size) => size.stock, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   sizes: Sizes[];
 }

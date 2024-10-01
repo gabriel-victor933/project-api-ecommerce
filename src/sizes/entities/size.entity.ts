@@ -1,5 +1,11 @@
 import { Stock } from 'src/stock/entities/stock.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 export enum Size {
   S = 'S',
@@ -10,6 +16,7 @@ export enum Size {
 }
 
 @Entity()
+@Index(['stock', 'size'], { unique: true })
 export class Sizes {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -20,6 +27,9 @@ export class Sizes {
   @Column({ nullable: false })
   size: Size;
 
-  @ManyToOne(() => Stock, (stock) => stock.sizes, { nullable: false })
+  @ManyToOne(() => Stock, (stock) => stock.sizes, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
   stock: Stock;
 }
