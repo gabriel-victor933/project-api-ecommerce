@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Stock } from './entities/stock.entity';
 import { Repository } from 'typeorm';
 import { Product } from 'src/products/entities/product.entity';
-import { Images } from 'src/images/entities/images.entity';
+import { Sizes } from 'src/sizes/entities/size.entity';
 
 @Injectable()
 export class StockService {
@@ -14,30 +14,27 @@ export class StockService {
     private stocksRepository: Repository<Stock>,
   ) {}
 
-  async create(
-    createStockDto: CreateStockDto,
-    images: Array<Express.Multer.File>,
-  ) {
+  async create(createStockDto: CreateStockDto) {
     const product = new Product();
     product.id = createStockDto.productId;
+
+    const sizes: Sizes[] = createStockDto.sizes.map((data) => {
+      const size = new Sizes();
+
+      size.quantity = data.quantity;
+      size.size = data.size;
+
+      return size;
+    });
 
     const stock = this.stocksRepository.create({
       color: createStockDto.color,
       principal: createStockDto.principal,
-      quantity: createStockDto.quantity,
-      size: createStockDto.size,
     });
-
-    const imagesEnts: Images[] = images.map((img) => {
-      const image = new Images();
-      image.bucketKey = img.originalname || '123';
-      image.stock = stock;
-      return image;
-    });
-
-    stock.images = imagesEnts;
 
     stock.product = product;
+
+    stock.sizes = sizes;
 
     const saved = await this.stocksRepository.save(stock);
 
@@ -48,6 +45,7 @@ export class StockService {
     return this.stocksRepository.find({
       relations: {
         images: true,
+        sizes: true,
       },
       relationLoadStrategy: 'join',
     });
@@ -60,6 +58,7 @@ export class StockService {
       },
       relations: {
         images: true,
+        sizes: true,
       },
       relationLoadStrategy: 'join',
     });

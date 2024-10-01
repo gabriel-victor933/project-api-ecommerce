@@ -11,6 +11,7 @@ import { FeaturesModule } from './features/features.module';
 import { ImagesModule } from './images/images.module';
 import { BucketModule } from './bucket/bucket.module';
 import { ProductTypeModule } from './product-type/product-type.module';
+import { SizesModule } from './sizes/sizes.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ProductTypeModule } from './product-type/product-type.module';
     ImagesModule,
     BucketModule,
     ProductTypeModule,
+    SizesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

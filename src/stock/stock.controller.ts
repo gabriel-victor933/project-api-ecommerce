@@ -9,10 +9,6 @@ import {
   ParseUUIDPipe,
   NotFoundException,
   UseInterceptors,
-  ParseFilePipeBuilder,
-  HttpStatus,
-  UploadedFiles,
-  UnprocessableEntityException,
 } from '@nestjs/common';
 import { StockService } from './stock.service';
 import { CreateStockDto } from './dto/create-stock.dto';
@@ -25,23 +21,8 @@ export class StockController {
 
   @Post()
   @UseInterceptors(FilesInterceptor('images'))
-  create(
-    @Body() createStockDto: CreateStockDto,
-    @UploadedFiles(
-      new ParseFilePipeBuilder()
-        .addFileTypeValidator({
-          fileType: 'webp',
-        })
-        .build({
-          errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-          exceptionFactory: () => {
-            throw new UnprocessableEntityException('Images files are required');
-          },
-        }),
-    )
-    images: Array<Express.Multer.File>,
-  ) {
-    return this.stockService.create(createStockDto, images);
+  create(@Body() createStockDto: CreateStockDto) {
+    return this.stockService.create(createStockDto);
   }
 
   @Get()

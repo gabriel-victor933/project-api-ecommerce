@@ -1,28 +1,39 @@
 import {
-  IsBooleanString,
+  ArrayMinSize,
+  ArrayNotEmpty,
+  IsBoolean,
   IsEnum,
   IsHexColor,
   IsNotEmpty,
-  IsNumberString,
+  IsNumber,
   IsString,
   IsUUID,
-  Validate,
+  Min,
+  ValidateNested,
 } from 'class-validator';
-import { Size } from '../entities/stock.entity';
-import { CustomMinValueNumericString } from 'src/utils/validation/customMinValueNumericString';
+import { Size } from '../../sizes/entities/size.entity';
+import { Type } from 'class-transformer';
+
+class SizeDto {
+  @IsNumber()
+  @Min(0)
+  quantity: number;
+
+  @IsEnum(Size)
+  size: Size;
+}
 
 export class CreateStockDto {
-  @IsNotEmpty()
-  @IsNumberString()
-  @Validate(CustomMinValueNumericString)
-  quantity: number;
   @IsString()
   @IsNotEmpty()
   @IsHexColor()
   color: string;
-  @IsEnum(Size)
-  size: Size;
-  @IsBooleanString()
+  @ArrayNotEmpty()
+  @ArrayMinSize(0)
+  @ValidateNested({ each: true })
+  @Type(() => SizeDto)
+  sizes: SizeDto[];
+  @IsBoolean()
   principal: boolean;
   @IsString()
   @IsNotEmpty()

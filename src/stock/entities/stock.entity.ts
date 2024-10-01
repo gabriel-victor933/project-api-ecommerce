@@ -1,5 +1,6 @@
 import { Images } from 'src/images/entities/images.entity';
 import { Product } from 'src/products/entities/product.entity';
+import { Sizes } from 'src/sizes/entities/size.entity';
 import {
   Column,
   CreateDateColumn,
@@ -9,14 +10,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-export enum Size {
-  S = 'S',
-  M = 'M',
-  L = 'L',
-  XL = 'XL',
-  XXL = 'XXL',
-}
 
 @Entity()
 export class Stock {
@@ -30,13 +23,7 @@ export class Stock {
   updatedAt: Date;
 
   @Column({ nullable: false })
-  quantity: number;
-
-  @Column({ nullable: false })
   color: string;
-
-  @Column({ nullable: false })
-  size: Size;
 
   @Column({ nullable: false, default: false })
   principal: boolean;
@@ -46,4 +33,7 @@ export class Stock {
 
   @OneToMany(() => Images, (image) => image.stock, { cascade: true })
   images: Images[];
+
+  @OneToMany(() => Sizes, (size) => size.stock, { cascade: true })
+  sizes: Sizes[];
 }
