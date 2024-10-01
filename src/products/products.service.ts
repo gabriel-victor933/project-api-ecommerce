@@ -69,6 +69,7 @@ export class ProductsService {
       relations: {
         features: true,
         productType: true,
+        stocks: true,
       },
     });
 
