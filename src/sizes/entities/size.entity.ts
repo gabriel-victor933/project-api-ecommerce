@@ -20,6 +20,6 @@ export class Sizes {
   @Column({ nullable: false })
   size: Size;
 
-  @ManyToOne(() => Stock, (stock) => stock.sizes)
+  @ManyToOne(() => Stock, (stock) => stock.sizes, { nullable: false })
   stock: Stock;
 }

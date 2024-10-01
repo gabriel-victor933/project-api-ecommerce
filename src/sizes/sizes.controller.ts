@@ -1,7 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  Delete,
+  NotFoundException,
+} from '@nestjs/common';
 import { SizesService } from './sizes.service';
 import { CreateSizeDto } from './dto/create-size.dto';
-import { UpdateSizeDto } from './dto/update-size.dto';
 
 @Controller('sizes')
 export class SizesController {
@@ -12,23 +18,12 @@ export class SizesController {
     return this.sizesService.create(createSizeDto);
   }
 
-  @Get()
-  findAll() {
-    return this.sizesService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.sizesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSizeDto: UpdateSizeDto) {
-    return this.sizesService.update(+id, updateSizeDto);
-  }
-
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.sizesService.remove(+id);
+  async remove(@Param('id') id: string) {
+    const { affected } = await this.sizesService.remove(id);
+
+    if (!affected) throw new NotFoundException('Size not found!');
+
+    return 'Deleted';
   }
 }

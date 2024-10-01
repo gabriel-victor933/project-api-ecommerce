@@ -51,7 +51,7 @@ export class StockController {
   async remove(@Param('id', ParseUUIDPipe) id: string) {
     const { affected } = await this.stockService.remove(id);
 
-    if (!affected) throw new NotFoundException('Product not found!');
+    if (!affected) throw new NotFoundException('Stock not found!');
 
     return 'Deleted';
   }
