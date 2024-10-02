@@ -71,6 +71,7 @@ export class ProductsService {
         productType: true,
         stocks: {
           sizes: true,
+          images: true,
         },
       },
     });
