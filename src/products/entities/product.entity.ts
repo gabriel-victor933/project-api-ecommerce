@@ -44,13 +44,13 @@ export class Product {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Feature, (feature) => feature.product, { cascade: true })
+  @OneToMany(() => Feature, (feature) => feature.product)
   features: Feature[];
 
   @OneToMany(() => Comment, (Comment) => Comment.product)
   comments: Comment[];
 
-  @OneToMany(() => Stock, (Stock) => Stock.product)
+  @OneToMany(() => Stock, (Stock) => Stock.product, { onDelete: 'RESTRICT' })
   stocks: Stock[];
 
   @ManyToOne(() => ProductType, (type) => type.products, { nullable: false })

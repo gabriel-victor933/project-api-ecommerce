@@ -35,7 +35,10 @@ export class Stock {
   @ManyToOne(() => Product, (product) => product.comments, { nullable: false })
   product: Product;
 
-  @OneToMany(() => Images, (image) => image.stock, { cascade: true })
+  @OneToMany(() => Images, (image) => image.stock, {
+    cascade: true,
+    onDelete: 'RESTRICT',
+  })
   images: Images[];
 
   @OneToMany(() => Sizes, (size) => size.stock, {

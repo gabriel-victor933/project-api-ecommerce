@@ -9,6 +9,9 @@ export class Feature {
   @Column({ nullable: false })
   description: string;
 
-  @ManyToOne(() => Product, (product) => product.features)
+  @ManyToOne(() => Product, (product) => product.features, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   product: Product;
 }
