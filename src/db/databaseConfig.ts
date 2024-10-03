@@ -17,6 +17,12 @@ export const dataSourceOptions: DataSourceOptions = {
   password: configService.get<string>('DATABASE_PASSWORD'),
   database: configService.get<string>('DATABASE_NAME'),
   synchronize: true,
+  ssl: true,
+  extra: {
+    ssl: {
+      rejectUnauthorized: false, // Isso pode ser necessário dependendo da configuração SSL do RDS
+    },
+  },
   entities: ['**/*.entity{ .ts,.js}'],
   migrations: ['dist/db/migrations/*{.ts,.js}'],
   migrationsRun: true,
