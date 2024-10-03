@@ -11,10 +11,12 @@ import {
   UnprocessableEntityException,
   ParseUUIDPipe,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { ImagesService } from './images.service';
 import { CreateImageDto } from './dto/create-image.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('images')
 export class ImagesController {
@@ -22,6 +24,7 @@ export class ImagesController {
 
   @Post()
   @UseInterceptors(FileInterceptor('image'))
+  @UseGuards(AuthGuard)
   create(
     @Body() createImageDto: CreateImageDto,
     @UploadedFile(
@@ -42,6 +45,7 @@ export class ImagesController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
   async remove(@Param('id', ParseUUIDPipe) id: string) {
     const { affected } = await this.imagesService.remove(id);
 

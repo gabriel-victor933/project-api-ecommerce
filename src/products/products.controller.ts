@@ -14,12 +14,14 @@ import {
   ParseEnumPipe,
   BadRequestException,
   UseInterceptors,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Category } from './entities/product.entity';
 import { DatabaseErrorsInterceptor } from 'src/errors/interceptor/errors.interceptor';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('products')
 export class ProductsController {
@@ -27,6 +29,7 @@ export class ProductsController {
 
   @UseInterceptors(new DatabaseErrorsInterceptor('Type Don\'t exist!','Name is already in use!'))
   @Post()
+  @UseGuards(AuthGuard)
   create(@Body() createProductDto: CreateProductDto) {
       return this.productsService.create(createProductDto);
   }
@@ -54,7 +57,7 @@ export class ProductsController {
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.productsService.findOne(id);
   }
-
+  @UseGuards(AuthGuard)
   @Patch(':id')
   async update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -69,7 +72,7 @@ export class ProductsController {
 
     return 'Updated!';
   }
-
+  @UseGuards(AuthGuard)
   @Delete(':id')
   async remove(@Param('id', ParseUUIDPipe) id: string) {
     const { affected } = await this.productsService.remove(id);

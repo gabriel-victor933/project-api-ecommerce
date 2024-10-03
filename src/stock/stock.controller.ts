@@ -9,11 +9,13 @@ import {
   ParseUUIDPipe,
   NotFoundException,
   UseInterceptors,
+  UseGuards,
 } from '@nestjs/common';
 import { StockService } from './stock.service';
 import { CreateStockDto } from './dto/create-stock.dto';
 import { UpdateStockDto } from './dto/update-stock.dto';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('stock')
 export class StockController {
@@ -21,6 +23,7 @@ export class StockController {
 
   @Post()
   @UseInterceptors(FilesInterceptor('images'))
+  @UseGuards(AuthGuard)
   create(@Body() createStockDto: CreateStockDto) {
     return this.stockService.create(createStockDto);
   }
@@ -34,7 +37,7 @@ export class StockController {
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.stockService.findOne(id);
   }
-
+  @UseGuards(AuthGuard)
   @Patch(':id')
   async update(
     @Param('id', ParseUUIDPipe) id: string,
@@ -46,7 +49,7 @@ export class StockController {
 
     return 'Updated!';
   }
-
+  @UseGuards(AuthGuard)
   @Delete(':id')
   async remove(@Param('id', ParseUUIDPipe) id: string) {
     const { affected } = await this.stockService.remove(id);
